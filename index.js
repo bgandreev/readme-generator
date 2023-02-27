@@ -1,3 +1,8 @@
+const fs = require('fs');
+const path = require('path');
+const inquirer = require('inquirer');
+const generator = require('./generator');
+
 const userQuestions = [
   
     {
@@ -55,3 +60,16 @@ const userQuestions = [
     },
     
   ];
+
+  function createFile(fileName, data) {
+    return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+  }
+  
+  function initializer() {
+    inquirer.prompt(userQuestions).then((inquirerResponses) => {
+      console.log('Your README has been generated!');
+      createFile('README.md', generator({ ...inquirerResponses }));
+    });
+  }
+  
+  initializer();
